@@ -1,0 +1,15 @@
+/*Nome de todos os produtos*/
+select xpath('//File/Items/Item/@name' , xml) from xml;
+
+/*Todos Produtos do Outlet 35*/
+select xpath('//File/Products/Item[Outlet_ID="OUT035"]' , xml) from xml;
+
+/* Anos em que as vendas foram superiores a 6000*/
+select xpath('//File/Products/Item[Sales>"6000"]/Outlet_Year/text()' , xml) from xml;
+
+/*Lista Produtos de 13 a 15*/
+select xpath('//File/Products/Item[@id>="13" and @id<"16"]' , xml) from xml;
+
+/*Total vendas produtos do tipo 1 - Meat*/
+select xpath('//File/Types/Type[@id=1]/@name' , xml) tipo, 
+	xpath('sum(//File/Products/Item[@type_id=1]/Sales)' , xml) from xml;

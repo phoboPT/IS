@@ -3,7 +3,7 @@ import xmlschema
 
 
 def parser():
-    f = open('C:\\Users\\Phobo\\Desktop\\IS\\234.csv')
+    f = open('C:\\GitHub\\IS\\234.csv')
     csv_f = csv.reader(f)
     data = []
     for row in csv_f:
@@ -88,15 +88,15 @@ def parser():
     string += "</Products></File>"
     print("Done")
     # grava o xml
-    f = open('C:\\Users\\Phobo\\Desktop\\IS\\parsedData.xml', "w")
+    f = open('C:\\GitHub\\IS\\parsedData.xml', "w")
     f.write(string)
     f.close()
     # validar o xml
     print("testing")
     my_schema = xmlschema.XMLSchema(
-        'C:\\Users\\Phobo\\Desktop\\IS\\schema.xsd')
+        'C:\\GitHub\\IS\\schema.xsd')
     is_valid = my_schema.is_valid(
-        'C:\\Users\\Phobo\\Desktop\\IS\\parsedData.xml')
+        'C:\\GitHub\\IS\\parsedData.xml')
     text = '' if (is_valid) else 'in'
     print(f'The XML is {text}valid')
     return string
