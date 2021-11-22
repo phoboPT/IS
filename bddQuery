@@ -13,3 +13,60 @@ select xpath('//File/Products/Item[@id>="13" and @id<"16"]' , xml) from xml;
 /*Total vendas produtos do tipo 1 - Meat*/ -- AGRUPAMENTO -- INTERCAMIBO
 select xpath('//File/Types/Type[@id=1]/@name' , xml) tipo, 
 	xpath('sum(//File/Products/Item[@type_id=1]/Sales)' , xml) from xml;
+
+
+/*GHOST SCRIPT */
+
+-- Table: public.xml_deleted
+
+-- DROP TABLE public.xml_deleted;
+
+CREATE TABLE public.xml_deleted
+(
+    id integer NOT NULL,
+    xml xml,
+    name character varying(100),
+    "createdAt" date
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.xml_deleted
+    OWNER to postgres;
+
+------------------------------------------------------------------
+
+-- FUNCTION: public.create_ghost()
+
+-- DROP FUNCTION public.create_ghost();
+
+CREATE FUNCTION public.create_ghost()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+DECLARE
+
+BEGIN
+	INSERT INTO "xml_deleted" ("id","xml", "name", "createdAt")
+		VALUES (OLD."id", OLD."xml", OLD."name", OLD."createdAt");
+	RETURN OLD;
+END;
+$BODY$;
+
+ALTER FUNCTION public.create_ghost()
+    OWNER TO postgres;
+
+
+--------------------------------------------
+
+-- Trigger: soft_delete
+
+-- DROP TRIGGER soft_delete ON public.xml;
+
+CREATE TRIGGER soft_delete
+    BEFORE DELETE
+    ON public.xml
+    FOR EACH ROW
+    EXECUTE FUNCTION public.create_ghost();
