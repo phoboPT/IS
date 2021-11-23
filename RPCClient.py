@@ -1,5 +1,4 @@
 import xmlrpc.client
-import csv
 import os
 rpc = xmlrpc.client.ServerProxy('http://localhost:8000')
 
@@ -7,7 +6,7 @@ rpc = xmlrpc.client.ServerProxy('http://localhost:8000')
 def insert(name):
     try:
         print("Sending csv file to the server")
-        with open("C:\\Users\\Phobo\\Desktop\\IS\\234.csv", "rb") as handle:
+        with open(f"{os.path.dirname(os.path.realpath(__file__))}/{name}.csv", "rb") as handle:
             binary_data = xmlrpc.client.Binary(handle.read())
 
             data = rpc.insert(name, binary_data)
@@ -91,10 +90,10 @@ def delete(name):
         print('exit')
 
 
-insert("qwer")
+insert("234")
 # getAllProducts()
 # getProductsFromOutletById("OUT035")
 # getSellsByAmmount(6000)
 # getProductsBetweenIds(13, 16)
 # getAllSellsByProductId(1)
-delete("qwer")
+delete("234")

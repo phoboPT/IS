@@ -1,5 +1,6 @@
 import csv
 import xmlschema
+import os
 
 
 def parser(name, path):
@@ -89,15 +90,15 @@ def parser(name, path):
     string += "</Products></File>"
     print("Done")
     # grava o xml
-    f = open(f'C:\\Users\\Phobo\\Desktop\\IS\\XML\\{name}.xml', "w")
+    f = open(f"{os.path.dirname(os.path.realpath(__file__))}/XML/{name}.xml", "w")
     f.write(string)
     f.close()
     # validar o xml
     print("testing")
     my_schema = xmlschema.XMLSchema(
-        'C:\\Users\\Phobo\\Desktop\\IS\\schema.xsd')
+        f"{os.path.dirname(os.path.realpath(__file__))}/schema.xsd")
     is_valid = my_schema.is_valid(
-        f'C:\\Users\\Phobo\\Desktop\\IS\\XML\\{name}.xml')
+        f"{os.path.dirname(os.path.realpath(__file__))}/XML/{name}.xml")
     text = '' if (is_valid) else 'in'
     print(f'The XML is {text}valid')
     return string

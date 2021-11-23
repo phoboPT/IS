@@ -115,7 +115,8 @@ def getAllSellsByProductId(id):
         cur = conn.cursor()
         # insert
         cur.execute(
-            f"""select xpath('//File/Types/Type[@id={id}]/@name', xml) tipo, xpath('sum(//File/Products/Item[@type_id={id}]/Sales)', xml) from xml """)
+            f"""select xpath('//File/Types/Type[@id={id}]/@name', xml) tipo,
+             xpath('sum(//File/Products/Item[@type_id={id}]/Sales)', xml) from xml """)
         data = cur.fetchall()
         cur.close()
         return data
