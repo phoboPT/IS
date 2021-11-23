@@ -1,19 +1,17 @@
 import xmlrpc.client
 import csv
-
+import os
 rpc = xmlrpc.client.ServerProxy('http://localhost:8000')
 
 
 def insert(name):
     try:
-        f = open('C:\\Users\\Phobo\\Desktop\\IS\\234.csv')
-        csv_f = csv.reader(f)
-        data = []
-        for row in csv_f:
-            data.append(row)
-        f.close()
-        data = rpc.insert(name, data)
-        print(data)
+        print("Sending csv file to the server")
+        with open("C:\\Users\\Phobo\\Desktop\\IS\\234.csv", "rb") as handle:
+            binary_data = xmlrpc.client.Binary(handle.read())
+
+            data = rpc.insert(name, binary_data)
+            print(data)
 
     except (Exception) as error:
         print(error)
@@ -23,6 +21,7 @@ def insert(name):
 
 def getAllProducts():
     try:
+        print("Getting all products from the server")
         data = rpc.getAllProducts()
         print(data)
 
@@ -34,6 +33,7 @@ def getAllProducts():
 
 def getProductsFromOutletById(id):
     try:
+        print("Getting all products from outlet by id from the server")
         data = rpc.getProductsFromOutletById(id)
         print(data)
 
@@ -45,6 +45,7 @@ def getProductsFromOutletById(id):
 
 def getSellsByAmmount(ammount):
     try:
+        print("Getting all sells by ammount from the server")
         data = rpc.getProductsFromOutletById(ammount)
         print(data)
 
@@ -56,7 +57,8 @@ def getSellsByAmmount(ammount):
 
 def getProductsBetweenIds(id1, id2):
     try:
-        data = rpc.getProductsFromOutletById(id1, id2)
+        print("Getting all products between ids from the server")
+        data = rpc.getProductsBetweenIds(id1, id2)
         print(data)
 
     except (Exception) as error:
@@ -67,7 +69,8 @@ def getProductsBetweenIds(id1, id2):
 
 def getAllSellsByProductId(id):
     try:
-        data = rpc.getProductsFromOutletById(id)
+        print("Getting all sells by product id from the server")
+        data = rpc.getAllSellsByProductId(id)
         print(data)
 
     except (Exception) as error:
@@ -76,5 +79,22 @@ def getAllSellsByProductId(id):
         print('exit')
 
 
-insert("teste")
-getProductsFromOutletById()
+def delete(name):
+    try:
+        print("Deleting files from the server")
+        data = rpc.delete(name)
+        print(data)
+
+    except (Exception) as error:
+        print(error)
+    finally:
+        print('exit')
+
+
+insert("qwer")
+# getAllProducts()
+# getProductsFromOutletById("OUT035")
+# getSellsByAmmount(6000)
+# getProductsBetweenIds(13, 16)
+# getAllSellsByProductId(1)
+delete("qwer")
