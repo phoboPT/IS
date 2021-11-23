@@ -9,9 +9,10 @@ params = config()
 conn = None
 
 
-def insert(name, file):
+def insert(name, path):
     try:
-        populateData(file)
+        print('Inserting records into the table...')
+        populateData(name, path)
         connect()
         cur = conn.cursor()
         # insert
@@ -31,6 +32,7 @@ def insert(name, file):
 
 def getAllProductsName():
     try:
+        print("getting all products from database")
         connect()
         cur = conn.cursor()
         # insert
@@ -51,6 +53,7 @@ def getAllProductsName():
 def getProductsFromOutletById(id):
 
     try:
+        print("getting all products from outlet id from database")
         connect()
         cur = conn.cursor()
         # insert
@@ -70,6 +73,7 @@ def getProductsFromOutletById(id):
 
 def getSellsByAmmount(ammount):
     try:
+        print("getting all sells by ammount from database")
         connect()
         cur = conn.cursor()
         # insert
@@ -88,6 +92,7 @@ def getSellsByAmmount(ammount):
 
 def getProductsBetweenIds(id1, id2):
     try:
+        print("getting all products between 2 ids from database")
         connect()
         cur = conn.cursor()
         # insert
@@ -105,6 +110,7 @@ def getProductsBetweenIds(id1, id2):
 
 def getAllSellsByProductId(id):
     try:
+        print("getting all sells by product id from database")
         connect()
         cur = conn.cursor()
         # insert
@@ -113,6 +119,24 @@ def getAllSellsByProductId(id):
         data = cur.fetchall()
         cur.close()
         return data
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+
+    finally:
+        if conn is not None:
+            close()
+
+
+def deleteByName(name):
+    try:
+        print("getting all sells by product id from database")
+        connect()
+        cur = conn.cursor()
+        # insert
+        cur.execute(f"""delete 	FROM public.xml where name='{name}'; """)
+        conn.commit()
+        cur.close()
+        return "succefully deleted"
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
 
@@ -133,6 +157,6 @@ def close():
     print('Database connection closed.')
 
 
-def populateData(file):
+def populateData(name, path):
     global xmlData
-    xmlData = xmlParser.parser(file)
+    xmlData = xmlParser.parser(name, path)
