@@ -2,14 +2,7 @@ import csv
 import xmlschema
 
 
-def parser():
-    f = open('C:\\GitHub\\IS\\234.csv')
-    csv_f = csv.reader(f)
-    data = []
-    for row in csv_f:
-        data.append(row)
-    f.close()
-
+def parser(data):
     xmlData = {}
     # criar o objeto que vai guardar os items,types e outletSize
     print("Creating the xmlData")
@@ -88,15 +81,15 @@ def parser():
     string += "</Products></File>"
     print("Done")
     # grava o xml
-    f = open('C:\\GitHub\\IS\\parsedData.xml', "w")
+    f = open('C:\\Users\\Phobo\\Desktop\\IS\\parsedData.xml', "w")
     f.write(string)
     f.close()
     # validar o xml
     print("testing")
     my_schema = xmlschema.XMLSchema(
-        'C:\\GitHub\\IS\\schema.xsd')
+        'C:\\Users\\Phobo\\Desktop\\IS\\schema.xsd')
     is_valid = my_schema.is_valid(
-        'C:\\GitHub\\IS\\parsedData.xml')
+        'C:\\Users\\Phobo\\Desktop\\IS\\parsedData.xml')
     text = '' if (is_valid) else 'in'
     print(f'The XML is {text}valid')
     return string
