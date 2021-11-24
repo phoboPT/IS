@@ -33,7 +33,7 @@ class Methods:
         return dbUtil.getProductsFromOutletById(id)
 
     def getSellsByAmmount(self, ammount):
-        print("getting sells by ammount")
+        print("getting sells by ammount", ammount)
         return dbUtil.getSellsByAmmount(ammount)
 
     def getProductsBetweenIds(self, id1, id2):

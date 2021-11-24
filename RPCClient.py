@@ -3,6 +3,16 @@ import os
 rpc = xmlrpc.client.ServerProxy('http://localhost:8000')
 
 
+def saveToFile(name, data, extension="xml"):
+    try:
+        f = open(
+            f"{os.path.dirname(os.path.realpath(__file__))}/client/{name}.{extension}", "w")
+        f.write(" ".join(map(str, data)))
+        f.close()
+    except (Exception) as error:
+        print(error)
+
+
 def insert(name):
     try:
         print("Sending csv file to the server")
@@ -22,7 +32,7 @@ def getAllProducts():
     try:
         print("Getting all products from the server")
         data = rpc.getAllProducts()
-        print(data)
+        saveToFile("allProducts", data, "txt")
 
     except (Exception) as error:
         print(error)
@@ -34,7 +44,7 @@ def getProductsFromOutletById(id):
     try:
         print("Getting all products from outlet by id from the server")
         data = rpc.getProductsFromOutletById(id)
-        print(data)
+        saveToFile("productsFromOutletById", data)
 
     except (Exception) as error:
         print(error)
@@ -45,8 +55,9 @@ def getProductsFromOutletById(id):
 def getSellsByAmmount(ammount):
     try:
         print("Getting all sells by ammount from the server")
-        data = rpc.getProductsFromOutletById(ammount)
+        data = rpc.getSellsByAmmount(ammount)
         print(data)
+        saveToFile("sellsByAmmount", data)
 
     except (Exception) as error:
         print(error)
@@ -58,7 +69,7 @@ def getProductsBetweenIds(id1, id2):
     try:
         print("Getting all products between ids from the server")
         data = rpc.getProductsBetweenIds(id1, id2)
-        print(data)
+        saveToFile("productsBetweenIds", data)
 
     except (Exception) as error:
         print(error)
@@ -70,7 +81,8 @@ def getAllSellsByProductId(id):
     try:
         print("Getting all sells by product id from the server")
         data = rpc.getAllSellsByProductId(id)
-        print(data)
+
+        saveToFile("allSellsByProductId", data)
 
     except (Exception) as error:
         print(error)
@@ -91,9 +103,9 @@ def delete(name):
 
 
 insert("234")
-# getAllProducts()
-# getProductsFromOutletById("OUT035")
-# getSellsByAmmount(6000)
-# getProductsBetweenIds(13, 16)
-# getAllSellsByProductId(1)
+getAllProducts()
+getProductsFromOutletById("OUT035")
+getSellsByAmmount(1000)
+getProductsBetweenIds(13, 16)
+getAllSellsByProductId(1)
 delete("234")

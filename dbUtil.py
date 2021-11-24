@@ -58,7 +58,7 @@ def getProductsFromOutletById(id):
         cur = conn.cursor()
         # insert
         cur.execute(
-            f"""select xpath('//File/Products/Item[Outlet_ID=\"{id}\"]' , xml) from xml;""")
+            f"""select xpath('//File/Products/Item[Outlet_ID="{id}"]' , xml) from xml;""")
         data = cur.fetchall()
 
         cur.close()
@@ -78,7 +78,7 @@ def getSellsByAmmount(ammount):
         cur = conn.cursor()
         # insert
         cur.execute(
-            f"""select xpath('//File/Products/Item[Sales>\"{ammount}\"]/Outlet_Year/text()' , xml) from xml;""")
+            f"""select xpath('//File/Products/Item[Sales>"{ammount}"]/Outlet_Year/text()' , xml) from xml;""")
         data = cur.fetchall()
 
         cur.close()
@@ -97,7 +97,7 @@ def getProductsBetweenIds(id1, id2):
         cur = conn.cursor()
         # insert
         cur.execute(
-            f"""select xpath('//File/Products/Item[@id>=\"{id1}\" and @id<\"{id2}\"]' , xml) from xml;""")
+            f"""select xpath('//File/Products/Item[@id>="{id1}" and @id<"{id2}"]' , xml) from xml;""")
         data = cur.fetchall()
         cur.close()
         return data
