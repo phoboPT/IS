@@ -13,7 +13,6 @@ São implementas alguns metodos para pesquisas utilizando o xpath e xquery para 
 1.   pip install xmlrpc
 2.   pip install psycopg2
 3.   pip install xmlschema
-4.   pip install csv
 
 
 
